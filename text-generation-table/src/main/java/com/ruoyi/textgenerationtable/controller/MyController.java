@@ -3,8 +3,8 @@ package com.ruoyi.textgenerationtable.controller;
 import com.ruoyi.textgenerationtable.service.IOptDatabaseService;
 import com.ruoyi.textgenerationtable.vo.GenerateTableVo;
 import org.ansj.domain.Result;
-import org.ansj.splitWord.analysis.DicAnalysis;
 import org.ansj.library.UserDefineLibrary;
+import org.ansj.splitWord.analysis.DicAnalysis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +16,7 @@ public class MyController {
     @GetMapping("/table")
     public String generateTable(String text){
         long startTime = System.currentTimeMillis();
+        UserDefineLibrary.insertWord("番茄炒蛋");
         Result result = DicAnalysis.parse(text);
 //        for (String s : forest.getParam()) {
 //            System.out.println(s);

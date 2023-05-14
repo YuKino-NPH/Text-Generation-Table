@@ -1,16 +1,16 @@
 package com.ruoyi.textgenerationtable.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
+import com.ruoyi.textgenerationtable.domain.DictProperties;
 import com.ruoyi.textgenerationtable.enums.CommonStatus;
+import com.ruoyi.textgenerationtable.mapper.DictPropertiesMapper;
+import com.ruoyi.textgenerationtable.service.IDictPropertiesService;
 import com.ruoyi.textgenerationtable.utils.AnalysisDictUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.textgenerationtable.mapper.DictPropertiesMapper;
-import com.ruoyi.textgenerationtable.domain.DictProperties;
-import com.ruoyi.textgenerationtable.service.IDictPropertiesService;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 字典管理Service业务层处理
@@ -57,7 +57,7 @@ public class DictPropertiesServiceImpl implements IDictPropertiesService {
         dictProperties.setStatus(CommonStatus.NORMAL.getCode());
         dictProperties.setUpdTime(new Date());
         // 添加进内存词典里
-        AnalysisDictUtils.addWord(dictProperties.getDictName());
+        AnalysisDictUtils.addWord(dictProperties.getDictValue());
         return dictPropertiesMapper.insertDictProperties(dictProperties);
     }
 

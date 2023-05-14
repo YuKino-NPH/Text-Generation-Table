@@ -1,11 +1,9 @@
 package com.ruoyi;
 
-import com.ruoyi.common.annotation.Log;
 import com.ruoyi.textgenerationtable.domain.DictProperties;
 import com.ruoyi.textgenerationtable.enums.CommonStatus;
 import com.ruoyi.textgenerationtable.service.IDictPropertiesService;
 import com.ruoyi.textgenerationtable.utils.AnalysisDictUtils;
-import org.slf4j.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -30,7 +28,7 @@ public class RuoYiApplication {
         IDictPropertiesService dictPropertiesService = application.getBean(IDictPropertiesService.class);
         DictProperties dictProperties = new DictProperties();
         dictProperties.setStatus(CommonStatus.NORMAL.getCode());
-        List<String> dict = dictPropertiesService.selectDictPropertiesList(dictProperties).stream().map(DictProperties::getDictName).collect(Collectors.toList());
+        List<String> dict = dictPropertiesService.selectDictPropertiesList(dictProperties).stream().map(DictProperties::getDictValue).collect(Collectors.toList());
 
         AnalysisDictUtils.addWord(dict);
         long l = System.currentTimeMillis();
