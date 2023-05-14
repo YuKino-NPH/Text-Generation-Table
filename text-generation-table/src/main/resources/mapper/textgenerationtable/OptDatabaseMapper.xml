@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textgenerationtable.mapper.OptDatabaseMapper">
+    <update id="createTable">
+        create table `${tableName}`
+        <foreach item="item" collection="fieldList" open="(" separator=",">
+            `${item.dictValue}`
+            <if test="item.length != null and item.length != 0">
+                ${item.type}(${item.length})
+            </if>
+            <if test="item.length == null || item.length == 0">
+                ${item.type}
+            </if>
+            <if test="item.isEmpty == 0">
+                NOT NULL
+            </if>
+            <if test="item.desc !=null and item.desc != ''">
+                COMMENT '${item.desc}'
+            </if>
+        </foreach>
+        , PRIMARY KEY(`${primaryKey}`))
+    </update>
+</mapper>

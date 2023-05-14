@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textgenerationtable.mapper.TablePropertiesMapper">
+    
+    <resultMap type="TableProperties" id="TablePropertiesResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="desc"    column="desc"    />
+        <result property="tablePrimaryKey"    column="table_primary_key"    />
+        <result property="tableIndex"    column="table_index"    />
+        <result property="tableForeign"    column="table_foreign"    />
+        <result property="status"    column="status"    />
+        <result property="crtTime"    column="crt_time"    />
+        <result property="updTime"    column="upd_time"    />
+    </resultMap>
+
+    <sql id="selectTablePropertiesVo">
+        select id, `name`, `desc`, table_primary_key, table_index, table_foreign, `status`, crt_time, upd_time from table_properties
+    </sql>
+
+    <select id="selectTablePropertiesList" parameterType="TableProperties" resultMap="TablePropertiesResult">
+        <include refid="selectTablePropertiesVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and `name` like concat('%', #{name}, '%')</if>
+            <if test="desc != null  and desc != ''"> and `desc` = #{desc}</if>
+            <if test="tablePrimaryKey != null  and tablePrimaryKey != ''"> and table_primary_key = #{tablePrimaryKey}</if>
+            <if test="tableIndex != null  and tableIndex != ''"> and table_index = #{tableIndex}</if>
+            <if test="tableForeign != null  and tableForeign != ''"> and table_foreign = #{tableForeign}</if>
+            <if test="status != null  and status != ''"> and `status` = #{status}</if>
+            <if test="params.beginCrtTime != null and params.beginCrtTime != '' and params.endCrtTime != null and params.endCrtTime != ''"> and crt_time between #{params.beginCrtTime} and #{params.endCrtTime}</if>
+            <if test="params.beginUpdTime != null and params.beginUpdTime != '' and params.endUpdTime != null and params.endUpdTime != ''"> and upd_time between #{params.beginUpdTime} and #{params.endUpdTime}</if>
+        </where>
+    </select>
+    <select id="mySelectTablePropertiesList" parameterType="TableProperties" resultMap="TablePropertiesResult">
+        <include refid="selectTablePropertiesVo"/>
+        <where>
+            <if test="id != null "> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and `name` =  #{name}</if>
+            <if test="desc != null  and desc != ''"> and `desc` = #{desc}</if>
+            <if test="tablePrimaryKey != null  and tablePrimaryKey != ''"> and table_primary_key = #{tablePrimaryKey}</if>
+            <if test="tableIndex != null  and tableIndex != ''"> and table_index = #{tableIndex}</if>
+            <if test="tableForeign != null  and tableForeign != ''"> and table_foreign = #{tableForeign}</if>
+            <if test="status != null  and status != ''"> and `status` = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectTablePropertiesById" parameterType="Long" resultMap="TablePropertiesResult">
+        <include refid="selectTablePropertiesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertTableProperties" parameterType="TableProperties">
+        insert into table_properties
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">`name`,</if>
+            <if test="desc != null">`desc`,</if>
+            <if test="tablePrimaryKey != null and tablePrimaryKey != ''">table_primary_key,</if>
+            <if test="tableIndex != null">table_index,</if>
+            <if test="tableForeign != null">table_foreign,</if>
+            <if test="status != null">`status`,</if>
+            <if test="crtTime != null">crt_time,</if>
+            <if test="updTime != null">upd_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="tablePrimaryKey != null and tablePrimaryKey != ''">#{tablePrimaryKey},</if>
+            <if test="tableIndex != null">#{tableIndex},</if>
+            <if test="tableForeign != null">#{tableForeign},</if>
+            <if test="status != null">#{status},</if>
+            <if test="crtTime != null">#{crtTime},</if>
+            <if test="updTime != null">#{updTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTableProperties" parameterType="TableProperties">
+        update table_properties
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="desc != null">`desc` = #{desc},</if>
+            <if test="tablePrimaryKey != null and tablePrimaryKey != ''">table_primary_key = #{tablePrimaryKey},</if>
+            <if test="tableIndex != null">table_index = #{tableIndex},</if>
+            <if test="tableForeign != null">table_foreign = #{tableForeign},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="crtTime != null">crt_time = #{crtTime},</if>
+            <if test="updTime != null">upd_time = #{updTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTablePropertiesById" parameterType="Long">
+        delete from table_properties where id = #{id}
+    </delete>
+
+    <delete id="deleteTablePropertiesByIds" parameterType="String">
+        delete from table_properties where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

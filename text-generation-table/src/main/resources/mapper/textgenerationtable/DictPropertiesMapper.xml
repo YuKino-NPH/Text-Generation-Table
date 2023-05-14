@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textgenerationtable.mapper.DictPropertiesMapper">
+    
+    <resultMap type="DictProperties" id="DictPropertiesResult">
+        <result property="id"    column="id"    />
+        <result property="dictValue"    column="dict_value"    />
+        <result property="dictName"    column="dict_name"    />
+        <result property="type"    column="type"    />
+        <result property="length"    column="length"    />
+        <result property="isEmpty"    column="is_empty"    />
+        <result property="crtTime"    column="crt_time"    />
+        <result property="updTime"    column="upd_time"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectDictPropertiesVo">
+        select id, dict_value, dict_name, type, length, is_empty, crt_time, upd_time, status from dict_properties
+    </sql>
+
+    <select id="selectDictPropertiesList" parameterType="DictProperties" resultMap="DictPropertiesResult">
+        <include refid="selectDictPropertiesVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="dictValue != null  and dictValue != ''"> and dict_value like concat('%', #{dictValue}, '%')</if>
+            <if test="dictName != null  and dictName != ''"> and dict_name like concat('%', #{dictName}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="length != null "> and length = #{length}</if>
+            <if test="isEmpty != null "> and is_empty = #{isEmpty}</if>
+            <if test="params.beginCrtTime != null and params.beginCrtTime != '' and params.endCrtTime != null and params.endCrtTime != ''"> and crt_time between #{params.beginCrtTime} and #{params.endCrtTime}</if>
+            <if test="params.beginUpdTime != null and params.beginUpdTime != '' and params.endUpdTime != null and params.endUpdTime != ''"> and upd_time between #{params.beginUpdTime} and #{params.endUpdTime}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectDictPropertiesById" parameterType="Long" resultMap="DictPropertiesResult">
+        <include refid="selectDictPropertiesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertDictProperties" parameterType="DictProperties">
+        insert into dict_properties
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="dictValue != null and dictValue != ''">dict_value,</if>
+            <if test="dictName != null">dict_name,</if>
+            <if test="type != null">type,</if>
+            <if test="length != null">length,</if>
+            <if test="isEmpty != null">is_empty,</if>
+            <if test="crtTime != null">crt_time,</if>
+            <if test="updTime != null">upd_time,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="dictValue != null and dictValue != ''">#{dictValue},</if>
+            <if test="dictName != null">#{dictName},</if>
+            <if test="type != null">#{type},</if>
+            <if test="length != null">#{length},</if>
+            <if test="isEmpty != null">#{isEmpty},</if>
+            <if test="crtTime != null">#{crtTime},</if>
+            <if test="updTime != null">#{updTime},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateDictProperties" parameterType="DictProperties">
+        update dict_properties
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dictValue != null and dictValue != ''">dict_value = #{dictValue},</if>
+            <if test="dictName != null">dict_name = #{dictName},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="length != null">length = #{length},</if>
+            <if test="isEmpty != null">is_empty = #{isEmpty},</if>
+            <if test="crtTime != null">crt_time = #{crtTime},</if>
+            <if test="updTime != null">upd_time = #{updTime},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteDictPropertiesById" parameterType="Long">
+        delete from dict_properties where id = #{id}
+    </delete>
+
+    <delete id="deleteDictPropertiesByIds" parameterType="String">
+        delete from dict_properties where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectDictPropertiesListByName" parameterType="DictProperties" resultMap="DictPropertiesResult">
+        <include refid="selectDictPropertiesVo"/>
+        <where>
+            <if test="id != null "> and id = #{id}</if>
+            <if test="dictValue != null  and dictValue != ''"> and dict_value = #{dictValue}</if>
+            <if test="dictName != null  and dictName != ''"> and dict_name = #{dictName}</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="length != null "> and length = #{length}</if>
+            <if test="isEmpty != null "> and is_empty = #{isEmpty}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+</mapper>

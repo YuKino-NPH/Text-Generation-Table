@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.textgenerationtable.mapper.FieldPropertiesMapper">
+    
+    <resultMap type="FieldProperties" id="FieldPropertiesResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="tableId"    column="table_id"    />
+        <result property="tableName"    column="table_name"    />
+        <result property="length"    column="length"    />
+        <result property="isEmpty"    column="is_empty"    />
+        <result property="fieldForeignKey"    column="field_foreign_key"    />
+        <result property="desc"    column="desc"    />
+        <result property="crtTime"    column="crt_time"    />
+        <result property="updTime"    column="upd_time"    />
+    </resultMap>
+
+    <sql id="selectFieldPropertiesVo">
+        select id, `name`, type, table_id, `table_name`, length, is_empty, field_foreign_key,`desc`, crt_time, upd_time from field_properties
+    </sql>
+
+    <select id="selectFieldPropertiesList" parameterType="FieldProperties" resultMap="FieldPropertiesResult">
+        <include refid="selectFieldPropertiesVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+            <if test="name != null  and name != ''"> and `name` like concat('%', #{name}, '%')</if>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="tableId != null "> and table_id = #{tableId}</if>
+            <if test="tableName != null  and tableName != ''"> and `table_name` like concat('%', #{tableName}, '%')</if>
+            <if test="length != null "> and length = #{length}</if>
+            <if test="isEmpty != null "> and is_empty = #{isEmpty}</if>
+            <if test="fieldForeignKey != null  and fieldForeignKey != ''"> and field_foreign_key = #{fieldForeignKey}</if>
+            <if test="desc != null  and desc != ''"> and `desc` = #{desc}</if>
+            <if test="params.beginCrtTime != null and params.beginCrtTime != '' and params.endCrtTime != null and params.endCrtTime != ''"> and crt_time between #{params.beginCrtTime} and #{params.endCrtTime}</if>
+            <if test="params.beginUpdTime != null and params.beginUpdTime != '' and params.endUpdTime != null and params.endUpdTime != ''"> and upd_time between #{params.beginUpdTime} and #{params.endUpdTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectFieldPropertiesById" parameterType="Long" resultMap="FieldPropertiesResult">
+        <include refid="selectFieldPropertiesVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFieldProperties" parameterType="FieldProperties">
+        insert into field_properties
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">`name`,</if>
+            <if test="type != null and type != ''">type,</if>
+            <if test="tableId != null">table_id,</if>
+            <if test="tableName != null and tableName != ''">`table_name`,</if>
+            <if test="length != null">length,</if>
+            <if test="isEmpty != null">is_empty,</if>
+            <if test="fieldForeignKey != null">field_foreign_key,</if>
+            <if test="desc != null">`desc`,</if>
+            <if test="crtTime != null">crt_time,</if>
+            <if test="updTime != null">upd_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="type != null and type != ''">#{type},</if>
+            <if test="tableId != null">#{tableId},</if>
+            <if test="tableName != null and tableName != ''">#{tableName},</if>
+            <if test="length != null">#{length},</if>
+            <if test="isEmpty != null">#{isEmpty},</if>
+            <if test="fieldForeignKey != null">#{fieldForeignKey},</if>
+            <if test="desc != null">#{desc},</if>
+            <if test="crtTime != null">#{crtTime},</if>
+            <if test="updTime != null">#{updTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFieldProperties" parameterType="FieldProperties">
+        update field_properties
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="tableId != null">table_id = #{tableId},</if>
+            <if test="tableName != null and tableName != ''">table_name = #{tableName},</if>
+            <if test="length != null">length = #{length},</if>
+            <if test="isEmpty != null">is_empty = #{isEmpty},</if>
+            <if test="fieldForeignKey != null">field_foreign_key = #{fieldForeignKey},</if>
+            <if test="desc != null">`desc` = #{desc},</if>
+            <if test="crtTime != null">crt_time = #{crtTime},</if>
+            <if test="updTime != null">upd_time = #{updTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFieldPropertiesById" parameterType="Long">
+        delete from field_properties where id = #{id}
+    </delete>
+
+    <delete id="deleteFieldPropertiesByIds" parameterType="String">
+        delete from field_properties where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
